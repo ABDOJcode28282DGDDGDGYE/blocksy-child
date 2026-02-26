@@ -58,11 +58,11 @@ body.custom-checkout-page {
 }
 
 /* ============================================================
-   HEADER — Centered brand + subtitle
+   HEADER — Logo + Steps + Secure
    ============================================================ */
 .cko-header {
-    padding: 36px 0 28px;
-    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
 }
 
 .cko-header__inner {
@@ -70,35 +70,108 @@ body.custom-checkout-page {
     margin: 0 auto;
     padding: 0 24px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 6px;
+    justify-content: space-between;
 }
 
 .cko-logo {
     text-decoration: none;
+    flex-shrink: 0;
 }
 
 .cko-logo img {
-    height: 42px;
+    height: 38px;
     width: auto;
     display: block;
 }
 
 .cko-logo__text {
     font-family: var(--head);
-    font-size: 1.75rem;
+    font-size: 1.35rem;
     font-weight: 800;
     color: var(--text);
     letter-spacing: 0.06em;
     text-transform: uppercase;
 }
 
-.cko-subtitle {
+/* Steps */
+.cko-steps {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.cko-step {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    text-decoration: none;
+    color: var(--dim);
     font-family: var(--body);
-    font-size: 0.88rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+    transition: color var(--ease);
+}
+
+.cko-step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    min-width: 24px;
+    border-radius: 50%;
+    font-family: var(--head);
+    font-size: 0.68rem;
+    font-weight: 800;
+    background: var(--surf2);
+    color: var(--dim);
+    border: 1.5px solid var(--border);
+    transition: all var(--ease);
+}
+
+.cko-step--done {
+    color: var(--green);
+}
+
+.cko-step--done .cko-step__num {
+    background: var(--green);
+    color: #000;
+    border-color: var(--green);
+}
+
+.cko-step--active {
+    color: var(--text);
+}
+
+.cko-step--active .cko-step__num {
+    background: var(--green);
+    color: #000;
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+.cko-step__sep {
+    width: 28px;
+    height: 1.5px;
+    background: var(--border);
+    border-radius: 1px;
+}
+
+/* Secure badge */
+.cko-secure {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     color: var(--muted);
-    font-weight: 400;
+    font-family: var(--body);
+    font-size: 0.78rem;
+    font-weight: 500;
+    flex-shrink: 0;
+}
+
+.cko-secure svg {
+    color: var(--green);
 }
 
 /* ============================================================
@@ -106,7 +179,7 @@ body.custom-checkout-page {
    ============================================================ */
 .cko-main {
     flex: 1;
-    padding: 0 0 80px;
+    padding: 32px 0 80px;
 }
 
 .cko-container {
@@ -173,16 +246,6 @@ body.custom-checkout-page {
     animation-delay: 0.04s;
 }
 
-/* Device Section Card */
-.cko-device-section {
-    background: var(--surf);
-    border: 1px solid var(--border);
-    border-radius: var(--r-lg);
-    padding: 28px 26px;
-    animation: fadeUp 0.35s ease both;
-    animation-delay: 0.08s;
-}
-
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -205,10 +268,6 @@ body.custom-checkout-page {
 
 .custom-checkout-page .woocommerce-billing-fields h3::before {
     content: "1";
-}
-
-.custom-checkout-page .woocommerce-billing-fields h3::before,
-.cko-step-num {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -224,86 +283,63 @@ body.custom-checkout-page {
     flex-shrink: 0;
 }
 
-.cko-section-heading {
-    display: flex;
+/* ============================================================
+   ADDITIONAL FIELDS — Section 2 (IPTV Package, Device, Adult)
+   ============================================================ */
+.custom-checkout-page .woocommerce-additional-fields {
+    background: var(--surf);
+    border: 1px solid var(--border);
+    border-radius: var(--r-lg);
+    padding: 28px 26px;
+    animation: fadeUp 0.35s ease both;
+    animation-delay: 0.08s;
+}
+
+.custom-checkout-page .woocommerce-additional-fields h3 {
+    display: flex !important;
     align-items: center;
     gap: 12px;
-    font-family: var(--head);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--text);
-    margin: 0 0 24px 0;
+    font-family: var(--head) !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: var(--text) !important;
+    margin: 0 0 24px 0 !important;
     padding-bottom: 18px;
     border-bottom: 1px solid var(--border);
     letter-spacing: 0.005em;
 }
 
-/* ============================================================
-   DEVICE SELECTOR GRID
-   ============================================================ */
-.cko-device-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-}
-
-.cko-device-card {
-    cursor: pointer;
-    display: block;
-}
-
-.cko-device-card input[type="radio"] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-}
-
-.cko-device-card__inner {
-    display: flex;
-    flex-direction: column;
+.custom-checkout-page .woocommerce-additional-fields h3::before {
+    content: "2";
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    padding: 22px 12px;
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: var(--r);
-    color: var(--muted);
-    transition: border-color var(--ease), background var(--ease), color var(--ease);
-    text-align: center;
+    width: 26px;
+    height: 26px;
+    min-width: 26px;
+    background: var(--green);
+    color: #000;
+    border-radius: 50%;
+    font-family: var(--head);
+    font-size: 0.73rem;
+    font-weight: 800;
+    flex-shrink: 0;
 }
 
-.cko-device-card__inner span {
-    font-family: var(--body);
-    font-size: 0.82rem;
-    font-weight: 500;
+/* Additional fields inner wrapper */
+.custom-checkout-page .woocommerce-additional-fields__field-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-.cko-device-card__inner svg {
-    color: var(--green);
-    opacity: 0.6;
-    transition: opacity var(--ease);
-}
-
-.cko-device-card:hover .cko-device-card__inner {
-    border-color: var(--border2);
-    background: var(--surf2);
-}
-
-.cko-device-card input:checked + .cko-device-card__inner {
-    border-color: var(--green);
-    background: rgba(34,197,94,0.06);
-    color: var(--text);
-}
-
-.cko-device-card input:checked + .cko-device-card__inner svg {
-    opacity: 1;
+/* Hide shipping fields if any remain */
+.custom-checkout-page .woocommerce-shipping-fields {
+    display: none !important;
 }
 
 /* ============================================================
-   FIELDS GRID (2 cols)
+   FIELDS GRID (2 cols for billing)
    ============================================================ */
 .custom-checkout-page .woocommerce-billing-fields__field-wrapper {
     display: grid;
@@ -405,6 +441,60 @@ body.custom-checkout-page {
 .custom-checkout-page .form-row .woocommerce-input-wrapper {
     display: block;
     width: 100%;
+}
+
+/* Radio buttons for additional fields */
+.custom-checkout-page .form-row input[type="radio"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: var(--bg);
+    cursor: pointer;
+    transition: border-color var(--ease), box-shadow var(--ease);
+    vertical-align: middle;
+    margin-right: 6px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.custom-checkout-page .form-row input[type="radio"]:checked {
+    border-color: var(--green);
+    background: var(--bg);
+}
+
+.custom-checkout-page .form-row input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+}
+
+.custom-checkout-page .form-row input[type="radio"]:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px var(--green-glow);
+}
+
+/* Radio labels inline */
+.custom-checkout-page .form-row .woocommerce-input-wrapper label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 18px;
+    cursor: pointer;
+    font-size: 0.88rem;
+    color: var(--muted);
+    transition: color var(--ease);
+}
+
+.custom-checkout-page .form-row .woocommerce-input-wrapper label:has(input:checked) {
+    color: var(--text);
 }
 
 /* Validation */
@@ -946,12 +1036,59 @@ body.custom-checkout-page {
 }
 
 /* ============================================================
-   HIDE UNNEEDED SECTIONS
+   FOOTER
    ============================================================ */
-/* Hide additional fields and shipping fields if any remain */
-.custom-checkout-page .woocommerce-additional-fields,
-.custom-checkout-page .woocommerce-shipping-fields {
-    display: none !important;
+.cko-footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    margin-top: auto;
+}
+
+.cko-footer__inner {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    flex-wrap: wrap;
+}
+
+.cko-footer__copy {
+    color: var(--dim);
+    font-size: 0.75rem;
+    font-family: var(--body);
+}
+
+.cko-footer__links {
+    display: flex;
+    gap: 18px;
+}
+
+.cko-footer__links a {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-decoration: none;
+    font-family: var(--body);
+    transition: color var(--ease);
+}
+.cko-footer__links a:hover {
+    color: var(--text);
+}
+
+.cko-footer__cards {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cko-footer__cards svg {
+    opacity: 0.6;
+    transition: opacity var(--ease);
+}
+.cko-footer__cards svg:hover {
+    opacity: 1;
 }
 
 /* ============================================================
@@ -974,32 +1111,53 @@ body.custom-checkout-page {
     .custom-checkout-page #order_review {
         position: static !important;
     }
+
+    /* Header stacks on mobile */
+    .cko-header__inner {
+        flex-direction: column;
+        gap: 14px;
+    }
+    .cko-secure {
+        display: none;
+    }
+
+    /* Footer stacks on mobile */
+    .cko-footer__inner {
+        flex-direction: column;
+        text-align: center;
+    }
 }
 
 @media (max-width: 640px) {
     .cko-header {
-        padding: 28px 0 22px;
+        padding: 16px 0;
     }
     .cko-logo__text {
-        font-size: 1.4rem;
+        font-size: 1.15rem;
+    }
+    .cko-steps {
+        gap: 5px;
+    }
+    .cko-step__label {
+        font-size: 0.72rem;
+    }
+    .cko-step__sep {
+        width: 16px;
     }
     .cko-main {
-        padding: 0 0 48px;
+        padding: 20px 0 48px;
     }
     .cko-container {
         padding: 0 14px;
     }
     .custom-checkout-page .woocommerce-billing-fields,
-    .cko-device-section,
+    .custom-checkout-page .woocommerce-additional-fields,
     .custom-checkout-page #order_review {
         padding: 20px 16px;
         border-radius: 14px;
     }
     .custom-checkout-page .woocommerce-billing-fields__field-wrapper {
         grid-template-columns: 1fr !important;
-    }
-    .cko-device-grid {
-        grid-template-columns: repeat(2, 1fr);
     }
     .custom-checkout-page table.shop_table tfoot .order-total td {
         font-size: 1.15rem;
@@ -1018,12 +1176,5 @@ body.custom-checkout-page {
     .custom-checkout-page #place_order {
         padding: 15px 20px;
         font-size: 0.94rem;
-    }
-    .cko-device-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-    }
-    .cko-device-card__inner {
-        padding: 16px 8px;
     }
 }

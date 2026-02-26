@@ -160,23 +160,10 @@
     }
 
     /* ==================================================
-       DEVICE SELECTOR
-    ================================================== */
-    function initDeviceSelector() {
-        var $hidden = $('#billing_cko_device');
-        if ( !$hidden.length ) return;
-
-        $(document).on('change', 'input[name="cko_device"]', function() {
-            $hidden.val( $(this).val() );
-        });
-    }
-
-    /* ==================================================
        INIT
     ================================================== */
     $(document).ready(function() {
         initPhone();
-        initDeviceSelector();
     });
 
     // Re-init after WooCommerce AJAX update
