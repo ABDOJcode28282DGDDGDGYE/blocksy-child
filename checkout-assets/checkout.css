@@ -153,15 +153,20 @@ body.custom-checkout-page {
 /* ─── SECTION CARD ───────────────────────────────────────── */
 .custom-checkout-page .woocommerce-billing-fields,
 .custom-checkout-page .woocommerce-shipping-fields,
-.custom-checkout-page .woocommerce-additional-fields {
+.custom-checkout-page .woocommerce-additional-fields,
+.custom-checkout-page .woocommerce-account-fields {
     background: var(--surf);
     border: 1px solid var(--border);
     border-radius: var(--r-lg);
     padding: 30px 28px;
     animation: fadeUp 0.35s ease both;
+    display: block !important;
+    visibility: visible !important;
 }
 .custom-checkout-page .woocommerce-billing-fields     { animation-delay: .04s; }
+.custom-checkout-page .woocommerce-shipping-fields    { animation-delay: .06s; }
 .custom-checkout-page .woocommerce-additional-fields  { animation-delay: .08s; }
+.custom-checkout-page .woocommerce-account-fields     { animation-delay: .10s; }
 
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
@@ -184,14 +189,16 @@ body.custom-checkout-page {
     padding-bottom: 18px;
     border-bottom: 1px solid var(--border);
     letter-spacing: 0.005em;
+    visibility: visible !important;
+    display: flex !important;
 }
 
 .custom-checkout-page .woocommerce-billing-fields h3::before    { content: "1"; }
-/* shipping hidden — .custom-checkout-page .woocommerce-shipping-fields > h3::before { content: "2"; } */
-.custom-checkout-page .woocommerce-additional-fields h3::before { content: "2"; }
+.custom-checkout-page .woocommerce-shipping-fields h3::before   { content: "2"; }
+.custom-checkout-page .woocommerce-additional-fields h3::before { content: "3"; }
 
 .custom-checkout-page .woocommerce-billing-fields h3::before,
-.custom-checkout-page .woocommerce-shipping-fields > h3::before,
+.custom-checkout-page .woocommerce-shipping-fields h3::before,
 .custom-checkout-page .woocommerce-additional-fields h3::before {
     display: inline-flex; align-items: center; justify-content: center;
     width: 25px; height: 25px; min-width: 25px;
@@ -201,10 +208,13 @@ body.custom-checkout-page {
 
 /* ─── FIELDS GRID (2 cols) ───────────────────────────────── */
 .custom-checkout-page .woocommerce-billing-fields__field-wrapper,
-.custom-checkout-page .woocommerce-shipping-fields__field-wrapper {
-    display: grid;
+.custom-checkout-page .woocommerce-shipping-fields__field-wrapper,
+.custom-checkout-page .woocommerce-additional-fields .notes {
+    display: grid !important;
     grid-template-columns: 1fr 1fr;
     gap: 0 16px;
+    width: 100%;
+    visibility: visible !important;
 }
 
 .custom-checkout-page #billing_company_field,
@@ -215,7 +225,14 @@ body.custom-checkout-page {
 .custom-checkout-page #shipping_company_field,
 .custom-checkout-page #shipping_address_1_field,
 .custom-checkout-page #shipping_address_2_field,
-.custom-checkout-page .notes { grid-column: 1 / -1; }
+.custom-checkout-page #shipping_postcode_field,
+.custom-checkout-page #shipping_city_field,
+.custom-checkout-page #shipping_state_field,
+.custom-checkout-page .notes {
+    grid-column: 1 / -1;
+    display: block !important;
+    visibility: visible !important;
+}
 
 /* ─── FORM ROW ───────────────────────────────────────────── */
 .custom-checkout-page .form-row {
@@ -224,8 +241,16 @@ body.custom-checkout-page {
     float: none !important;
     width: 100% !important;
     clear: none !important;
+    display: block !important;
+    visibility: visible !important;
 }
 .custom-checkout-page .form-row:last-child { margin-bottom: 0 !important; }
+.custom-checkout-page .form-row.form-row-first,
+.custom-checkout-page .form-row.form-row-last,
+.custom-checkout-page .form-row.form-row-wide {
+    display: block !important;
+    visibility: visible !important;
+}
 
 /* ─── LABELS ─────────────────────────────────────────────── */
 .custom-checkout-page .form-row > label {

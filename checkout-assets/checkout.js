@@ -177,16 +177,50 @@
     }
 
     /* ══════════════════════════════════════════════
+       VISIBILITY FIXER
+    ══════════════════════════════════════════════ */
+    function showAllFields() {
+        // إظهار جميع الحقول والأقسام المخفية
+        var selectors = [
+            '.woocommerce-billing-fields',
+            '.woocommerce-shipping-fields',
+            '.woocommerce-additional-fields',
+            '.woocommerce-account-fields',
+            '.form-row',
+            '.woocommerce-billing-fields__field-wrapper',
+            '.woocommerce-shipping-fields__field-wrapper'
+        ];
+
+        selectors.forEach(function(selector) {
+            var elements = document.querySelectorAll('.custom-checkout-page ' + selector);
+            elements.forEach(function(el) {
+                el.style.display = 'block';
+                el.style.visibility = 'visible';
+                el.style.opacity = '1';
+            });
+        });
+
+        console.log('[v0] All checkout fields visibility fixed');
+    }
+
+    /* ══════════════════════════════════════════════
        INIT
     ══════════════════════════════════════════════ */
     $(document).ready(function() {
-        initPhone();
-        initPayment();
+        // تأخير بسيط للتأكد من تحميل الـ HTML
+        setTimeout(function() {
+            showAllFields();
+            initPhone();
+            initPayment();
+        }, 100);
     });
 
     // إعادة التهيئة عند تحديث WooCommerce AJAX
     $(document.body).on('updated_checkout', function() {
-        initPhone();
+        setTimeout(function() {
+            showAllFields();
+            initPhone();
+        }, 100);
     });
 
 })(jQuery);

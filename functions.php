@@ -97,43 +97,37 @@ function cko_trust_badges() {
 
 
 /* ════════════════════════════════════════════
-   6. إزالة Shipping Fields فقط
-   والإبقاء على Additional Fields
+   6. Show All Fields Properly
+   عرض جميع الحقول بشكل صحيح
 ════════════════════════════════════════════ */
 
-// أ. إخفاء "Ship to different address" checkbox
-add_filter( 'woocommerce_cart_needs_shipping_address', '__return_false' );
+// أ. إظهار جميع حقول الشحن
+add_filter( 'woocommerce_cart_needs_shipping_address', '__return_true' );
 
-// ب. تفريغ حقول shipping فقط من WooCommerce
-add_filter( 'woocommerce_checkout_fields', 'cko_remove_shipping_fields_only' );
-function cko_remove_shipping_fields_only( $fields ) {
-    $fields['shipping'] = [];
+// ب. عدم حذف أي حقول
+add_filter( 'woocommerce_checkout_fields', 'cko_show_all_fields' );
+function cko_show_all_fields( $fields ) {
+    // لا تحذف أي حقول - اعرض الكل
     return $fields;
 }
 
-// ج. حذف div.woocommerce-shipping-fields من HTML
-//    مع الإبقاء الكامل على div.woocommerce-additional-fields
-add_action( 'woocommerce_checkout_before_customer_details', 'cko_buffer_start' );
-function cko_buffer_start() {
-    if ( ! is_checkout() ) return;
-    ob_start();
-}
-
-add_action( 'woocommerce_checkout_after_customer_details', 'cko_buffer_remove_shipping' );
-function cko_buffer_remove_shipping() {
-    if ( ! is_checkout() ) return;
-    $html = ob_get_clean();
-
-    // يحذف فقط <div class="woocommerce-shipping-fields"> وكل ما بداخله
-    // ويتوقف قبل أي div آخر
-    $html = preg_replace(
-        '/<div class="woocommerce-shipping-fields">[\s\S]*?<\/div>\s*<\/div>/U',
-        '',
-        $html
-    );
-
-    echo $html;
-}
-
-// د. التأكد أن Additional fields وOrder notes تظهر دائماً
+// ج. التأكد أن جميع الحقول والملاحظات تظهر دائماً
 add_filter( 'woocommerce_enable_order_notes_field', '__return_true' );
+
+// د. عرض حقول إضافية مخصصة
+add_filter( 'woocommerce_checkout_fields', 'cko_add_custom_fields' );
+function cko_add_custom_fields( $fields ) {
+    // التأكد من عدم إخفاء أي حقول موجودة
+    if ( isset( $fields['billing'] ) ) {
+        foreach ( $fields['billing'] as $key => $field ) {
+            if ( isset( $field['required'] ) ) {
+                $field['class'] = isset( $field['class'] ) ? $field['class'] : [];
+                if ( !is_array( $field['class'] ) ) {
+                    $field['class'] = array( $field['class'] );
+                }
+                $fields['billing'][$key] = $field;
+            }
+        }
+    }
+    return $fields;
+}
