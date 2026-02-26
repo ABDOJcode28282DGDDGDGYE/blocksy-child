@@ -133,7 +133,15 @@
             $original.val( selected.code + ' ' + (realInp.value || '') ).trigger('change');
         }
 
+        function positionDropdown() {
+            var rect = btn.getBoundingClientRect();
+            drop.style.top = (rect.bottom + window.scrollY + 6) + 'px';
+            drop.style.left = (rect.left + window.scrollX) + 'px';
+            drop.style.width = Math.max(rect.width, 240) + 'px';
+        }
+
         function openDropdown() {
+            positionDropdown();
             drop.classList.add('open');
             btn.setAttribute('aria-expanded', 'true');
             setTimeout(function(){ search.focus(); }, 40);
@@ -154,6 +162,15 @@
             if ( !document.getElementById('cko-phone-wrap').contains(e.target) ) closeDropdown();
         });
 
+        // إعادة موضع الـ dropdown عند التمرير أو تغيير حجم النافذة
+        window.addEventListener('scroll', function() {
+            if (drop.classList.contains('open')) positionDropdown();
+        }, true);
+
+        window.addEventListener('resize', function() {
+            if (drop.classList.contains('open')) positionDropdown();
+        });
+
         search.addEventListener('input', function() {
             var q = this.value.toLowerCase();
             renderList( q ? COUNTRIES.filter(function(c){ return c.name.toLowerCase().includes(q) || c.code.includes(q); }) : COUNTRIES );
@@ -162,6 +179,30 @@
         realInp.addEventListener('input', syncValue);
 
         renderList(COUNTRIES);
+    }
+
+    /* ══════════════════════════════════════════════
+       DEVICE SELECTOR ENHANCEMENT
+    ══════════════════════════════════════════════ */
+    function initDeviceSelector() {
+        var $deviceSelect = $('#device_streaming');
+        if (!$deviceSelect.length) return;
+
+        // تهيئة Select2 بخيارات جميلة
+        if ($.fn.select2) {
+            $deviceSelect.select2({
+                placeholder: 'Choose the device you are using',
+                allowClear: false,
+                width: '100%',
+                minimumResultsForSearch: -1
+            });
+        }
+
+        // تغيير placeholder عند الاختيار
+        $deviceSelect.on('select2:select', function(e) {
+            var selected = e.params.data;
+            console.log('[v0] Device selected:', selected.text);
+        });
     }
 
     /* ══════════════════════════════════════════════
@@ -211,6 +252,7 @@
         setTimeout(function() {
             showAllFields();
             initPhone();
+            initDeviceSelector();
             initPayment();
         }, 100);
     });
@@ -220,6 +262,7 @@
         setTimeout(function() {
             showAllFields();
             initPhone();
+            initDeviceSelector();
         }, 100);
     });
 

@@ -152,7 +152,6 @@ body.custom-checkout-page {
 
 /* ─── SECTION CARD ───────────────────────────────────────── */
 .custom-checkout-page .woocommerce-billing-fields,
-.custom-checkout-page .woocommerce-shipping-fields,
 .custom-checkout-page .woocommerce-additional-fields,
 .custom-checkout-page .woocommerce-account-fields {
     background: var(--surf);
@@ -164,9 +163,11 @@ body.custom-checkout-page {
     visibility: visible !important;
 }
 .custom-checkout-page .woocommerce-billing-fields     { animation-delay: .04s; }
-.custom-checkout-page .woocommerce-shipping-fields    { animation-delay: .06s; }
 .custom-checkout-page .woocommerce-additional-fields  { animation-delay: .08s; }
 .custom-checkout-page .woocommerce-account-fields     { animation-delay: .10s; }
+
+/* إخفاء shipping fields تماماً */
+.custom-checkout-page .woocommerce-shipping-fields { display: none !important; }
 
 @keyframes fadeUp {
     from { opacity: 0; transform: translateY(14px); }
@@ -175,7 +176,6 @@ body.custom-checkout-page {
 
 /* Section headings */
 .custom-checkout-page .woocommerce-billing-fields h3,
-.custom-checkout-page .woocommerce-shipping-fields h3,
 .custom-checkout-page .woocommerce-additional-fields h3,
 .custom-checkout-page h3#ship-to-different-address {
     display: flex !important;
@@ -194,11 +194,9 @@ body.custom-checkout-page {
 }
 
 .custom-checkout-page .woocommerce-billing-fields h3::before    { content: "1"; }
-.custom-checkout-page .woocommerce-shipping-fields h3::before   { content: "2"; }
-.custom-checkout-page .woocommerce-additional-fields h3::before { content: "3"; }
+.custom-checkout-page .woocommerce-additional-fields h3::before { content: "2"; }
 
 .custom-checkout-page .woocommerce-billing-fields h3::before,
-.custom-checkout-page .woocommerce-shipping-fields h3::before,
 .custom-checkout-page .woocommerce-additional-fields h3::before {
     display: inline-flex; align-items: center; justify-content: center;
     width: 25px; height: 25px; min-width: 25px;
@@ -208,7 +206,6 @@ body.custom-checkout-page {
 
 /* ─── FIELDS GRID (2 cols) ───────────────────────────────── */
 .custom-checkout-page .woocommerce-billing-fields__field-wrapper,
-.custom-checkout-page .woocommerce-shipping-fields__field-wrapper,
 .custom-checkout-page .woocommerce-additional-fields .notes {
     display: grid !important;
     grid-template-columns: 1fr 1fr;
@@ -222,12 +219,6 @@ body.custom-checkout-page {
 .custom-checkout-page #billing_address_2_field,
 .custom-checkout-page #billing_email_field,
 .custom-checkout-page #billing_phone_field,
-.custom-checkout-page #shipping_company_field,
-.custom-checkout-page #shipping_address_1_field,
-.custom-checkout-page #shipping_address_2_field,
-.custom-checkout-page #shipping_postcode_field,
-.custom-checkout-page #shipping_city_field,
-.custom-checkout-page #shipping_state_field,
 .custom-checkout-page .notes {
     grid-column: 1 / -1;
     display: block !important;
@@ -316,29 +307,113 @@ body.custom-checkout-page {
 .custom-checkout-page .form-row.woocommerce-validated select { border-color: var(--green) !important; }
 
 /* ─── SELECT2 ────────────────────────────────────────────── */
+.custom-checkout-page .select2-container {
+    width: 100% !important;
+}
+
 .custom-checkout-page .select2-container--default .select2-selection--single {
     background: var(--bg) !important;
     border: 1.5px solid var(--border) !important;
     border-radius: var(--r) !important;
     height: 48px !important;
+    transition: all var(--ease) !important;
 }
+
 .custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__rendered {
-    color: var(--text) !important; line-height: 45px !important;
-    padding-left: 15px !important; font-family: var(--body); font-size: 0.92rem;
+    color: var(--text) !important;
+    line-height: 45px !important;
+    padding-left: 15px !important;
+    font-family: var(--body);
+    font-size: 0.92rem;
+    letter-spacing: 0.01em;
 }
-.custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__arrow { height: 46px !important; right: 12px !important; }
-.custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__arrow b { border-color: var(--muted) transparent transparent transparent !important; }
+
+/* Device selector placeholder */
+#device_streaming + .select2-container .select2-selection__rendered {
+    position: relative;
+}
+
+#device_streaming + .select2-container .select2-selection__rendered::before {
+    content: "Choose the device you are using";
+    position: absolute;
+    left: 0;
+    color: var(--dim) !important;
+    font-size: 0.92rem;
+}
+
+#device_streaming:valid + .select2-container .select2-selection__rendered::before {
+    display: none;
+}
+
+.custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 46px !important;
+    right: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__arrow b {
+    border-color: var(--muted) transparent transparent transparent !important;
+    transition: transform var(--ease) !important;
+}
+
 .custom-checkout-page .select2-container--default.select2-container--open .select2-selection--single {
     border-color: var(--green) !important;
     box-shadow: 0 0 0 3px var(--green-glow) !important;
 }
-.select2-dropdown { background: var(--surf) !important; border: 1.5px solid var(--border) !important; border-radius: var(--r) !important; }
-.select2-results__option { color: var(--text) !important; padding: 10px 14px !important; font-family: var(--body); font-size: 0.88rem; }
-.select2-results__option--highlighted { background: var(--green) !important; color: #000 !important; }
+
+.custom-checkout-page .select2-container--default.select2-container--open .select2-selection__arrow b {
+    transform: rotate(180deg) !important;
+}
+
+/* Dropdown styling */
+.select2-dropdown {
+    background: var(--surf) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--r) !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.55) !important;
+}
+
+/* Device options */
+.select2-results__option {
+    color: var(--text) !important;
+    padding: 12px 14px !important;
+    font-family: var(--body);
+    font-size: 0.88rem;
+    transition: background var(--ease), color var(--ease) !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.select2-results__option::before {
+    content: '📱';
+    font-size: 1.1rem;
+}
+
+.select2-results__option[data-selected="samsung_tv"]::before { content: '📺'; }
+.select2-results__option[data-selected="LG_TV"]::before { content: '📺'; }
+.select2-results__option[data-selected="roku_tv"]::before { content: '📺'; }
+.select2-results__option[data-selected="android_devices"]::before { content: '🤖'; }
+.select2-results__option[data-selected="apple_devices"]::before { content: '🍎'; }
+.select2-results__option[data-selected="MAG_Box"]::before { content: '📡'; }
+
+.select2-results__option--highlighted {
+    background: var(--green) !important;
+    color: #000 !important;
+}
+
 .select2-search--dropdown .select2-search__field {
-    background: var(--bg) !important; border: 1.5px solid var(--border) !important;
-    border-radius: var(--r-sm) !important; color: var(--text) !important;
-    padding: 8px 12px !important; outline: none !important; font-family: var(--body);
+    background: var(--bg) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--r-sm) !important;
+    color: var(--text) !important;
+    padding: 10px 12px !important;
+    outline: none !important;
+    font-family: var(--body);
+    margin: 8px 8px 4px 8px !important;
+    width: auto !important;
 }
 
 /* ─── PHONE FIELD ────────────────────────────────────────── */
@@ -419,10 +494,8 @@ body.custom-checkout-page {
 /* Dropdown */
 .cko-phone-drop {
     display: none;
-    position: absolute;
-    top: calc(100% + 6px);
-    left: 0;
-    z-index: 99999;
+    position: fixed;
+    z-index: 999999;
     background: var(--surf);
     border: 1.5px solid var(--border);
     border-radius: var(--r);
@@ -727,16 +800,35 @@ body.custom-checkout-page {
 }
 
 @media (max-width: 640px) {
-    .cko-header__inner { height: 58px; padding: 0 16px; }
-    .cko-main { padding: 26px 0 64px; }
-    .cko-container { padding: 0 14px; }
-    .custom-checkout-page .woocommerce-billing-fields,
-    .custom-checkout-page .woocommerce-shipping-fields,
-    .custom-checkout-page .woocommerce-additional-fields,
-    .custom-checkout-page #order_review,
-    .custom-checkout-page #payment { padding: 20px 16px; border-radius: 14px; }
-    .custom-checkout-page .woocommerce-billing-fields__field-wrapper,
-    .custom-checkout-page .woocommerce-shipping-fields__field-wrapper { grid-template-columns: 1fr !important; }
+  .cko-container { padding: 0 14px; }
+  .custom-checkout-page .woocommerce-billing-fields,
+  .custom-checkout-page .woocommerce-additional-fields,
+  .custom-checkout-page #order_review,
+  .custom-checkout-page #payment { padding: 20px 16px; border-radius: 14px; }
+  .custom-checkout-page .woocommerce-billing-fields__field-wrapper { grid-template-columns: 1fr !important; }
+
+  /* Phone field responsive */
+  .cko-phone-wrap { flex-direction: column; }
+  .cko-phone-btn { border-radius: var(--r) var(--r) 0 0; border-right: 1.5px solid var(--border); }
+  .cko-phone-inp { border-radius: 0 0 var(--r) var(--r); border-left: 1.5px solid var(--border) !important; }
+
+  /* Device selector responsive */
+  .custom-checkout-page .select2-container--default .select2-selection--single {
+    height: 44px !important;
+  }
+  .custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 42px !important;
+    font-size: 0.85rem;
+  }
+  .custom-checkout-page .select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 44px !important;
+  }
+
+  /* Phone dropdown responsive positioning */
+  .cko-phone-drop {
+    min-width: 100% !important;
+    max-width: calc(100vw - 28px) !important;
+  }
     .custom-checkout-page table.shop_table tfoot .order-total td { font-size: 1.15rem; }
     .cko-footer__inner { flex-direction: column; text-align: center; gap: 10px; }
 }
