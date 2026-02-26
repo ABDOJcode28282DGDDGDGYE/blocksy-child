@@ -1,0 +1,31 @@
+/*
+Theme Name: Blocksy Child
+Theme URI: https://creativethemes.com/blocksy/
+Author: AMIN
+Author URI: https://acctopix.com
+Template: blocksy
+Version: 1.0.0
+Description: Child theme for Blocksy.
+Text Domain: blocksy-child
+*/
+
+
+
+
+/* Sticky Header Custom Fix */
+header.ct-header {
+  position: sticky !important;
+  top: 0;
+  z-index: 9999;
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+header.ct-header.is-sticky {
+  background-color: #ffffff !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+
+
