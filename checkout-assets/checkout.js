@@ -4,9 +4,9 @@
 (function($) {
     'use strict';
 
-    /* ══════════════════════════════════════════════
+    /* ==================================================
        COUNTRIES DATA
-    ══════════════════════════════════════════════ */
+    ================================================== */
     var COUNTRIES = [
         { code:'+1',   name:'United States',  iso:'us' },
         { code:'+1',   name:'Canada',         iso:'ca' },
@@ -46,11 +46,10 @@
         { code:'+54',  name:'Argentina',      iso:'ar' },
     ];
 
-    /* ══════════════════════════════════════════════
+    /* ==================================================
        PHONE DROPDOWN
-    ══════════════════════════════════════════════ */
+    ================================================== */
     function initPhone() {
-        // تجنب التكرار
         if ( document.getElementById('cko-phone-wrap') ) return;
 
         var $original = $('#billing_phone');
@@ -59,11 +58,10 @@
         var selected  = COUNTRIES[0];
         var $wrapper  = $original.closest('.woocommerce-input-wrapper');
 
-        /* بناء HTML */
         var html =
             '<div class="cko-phone-wrap" id="cko-phone-wrap">' +
 
-              '<button type="button" class="cko-phone-btn" id="cko-phone-btn" aria-expanded="false">' +
+              '<button type="button" class="cko-phone-btn" id="cko-phone-btn" aria-expanded="false" aria-label="Select country code">' +
                 '<img class="cko-flag" id="cko-flag" ' +
                   'src="https://flagcdn.com/20x15/' + selected.iso + '.png" ' +
                   'width="20" height="15" alt="' + selected.name + '">' +
@@ -76,19 +74,18 @@
 
               '<div class="cko-phone-drop" id="cko-phone-drop">' +
                 '<div class="cko-phone-search">' +
-                  '<input type="text" id="cko-psearch" placeholder="Search country…" autocomplete="off">' +
+                  '<input type="text" id="cko-psearch" placeholder="Search country..." autocomplete="off">' +
                 '</div>' +
                 '<ul class="cko-phone-list" id="cko-phone-list"></ul>' +
               '</div>' +
 
               '<input type="tel" class="cko-phone-inp" id="cko-phone-inp" ' +
-                'placeholder="Enter your phone number" autocomplete="tel">' +
+                'placeholder="Enter your phone number" autocomplete="tel" aria-label="Phone number">' +
 
             '</div>';
 
         $wrapper.append(html);
 
-        /* referensi */
         var btn      = document.getElementById('cko-phone-btn');
         var drop     = document.getElementById('cko-phone-drop');
         var search   = document.getElementById('cko-psearch');
@@ -97,7 +94,6 @@
         var dial     = document.getElementById('cko-dial');
         var list     = document.getElementById('cko-phone-list');
 
-        /* render list */
         function renderList(arr) {
             list.innerHTML = '';
             arr.forEach(function(c) {
@@ -144,7 +140,6 @@
             btn.setAttribute('aria-expanded', 'false');
         }
 
-        /* events */
         btn.addEventListener('click', function(e) {
             e.stopPropagation();
             drop.classList.contains('open') ? closeDropdown() : openDropdown();
@@ -164,27 +159,27 @@
         renderList(COUNTRIES);
     }
 
-    /* ══════════════════════════════════════════════
-       PAYMENT METHOD HIGHLIGHT
-    ══════════════════════════════════════════════ */
-    function initPayment() {
-        $(document).on('change', 'input[name="payment_method"]', function() {
-            $('#payment ul.payment_methods li').css('border-color','');
-            $(this).closest('li').css('border-color','var(--green)');
+    /* ==================================================
+       DEVICE SELECTOR
+    ================================================== */
+    function initDeviceSelector() {
+        var $hidden = $('#billing_cko_device');
+        if ( !$hidden.length ) return;
+
+        $(document).on('change', 'input[name="cko_device"]', function() {
+            $hidden.val( $(this).val() );
         });
-        // تحديد الأول
-        $('input[name="payment_method"]:first').trigger('change');
     }
 
-    /* ══════════════════════════════════════════════
+    /* ==================================================
        INIT
-    ══════════════════════════════════════════════ */
+    ================================================== */
     $(document).ready(function() {
         initPhone();
-        initPayment();
+        initDeviceSelector();
     });
 
-    // إعادة التهيئة عند تحديث WooCommerce AJAX
+    // Re-init after WooCommerce AJAX update
     $(document.body).on('updated_checkout', function() {
         initPhone();
     });
