@@ -746,8 +746,6 @@ body.custom-checkout-page {
     border-bottom: 1px solid var(--border) !important;
     display: block !important;
 }
-    display: block !important;
-}
 
 /* Table */
 .custom-checkout-page table.shop_table {

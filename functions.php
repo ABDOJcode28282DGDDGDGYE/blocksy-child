@@ -84,28 +84,9 @@ add_filter( 'woocommerce_cart_needs_shipping_address', '__return_false' );
 
 
 /* ================================================================
-   4. Remove shipping fields HTML via buffer
+   4. Hide shipping fields via CSS (cleaner than buffer approach)
 ================================================================ */
-add_action( 'woocommerce_checkout_before_customer_details', 'cko_buffer_start' );
-function cko_buffer_start() {
-    if ( ! is_checkout() ) return;
-    ob_start();
-}
-
-add_action( 'woocommerce_checkout_after_customer_details', 'cko_buffer_clean' );
-function cko_buffer_clean() {
-    if ( ! is_checkout() ) return;
-    $html = ob_get_clean();
-
-    // Remove shipping fields div only
-    $html = preg_replace(
-        '/<div class="woocommerce-shipping-fields">[\s\S]*?<\/div>\s*<\/div>/U',
-        '',
-        $html
-    );
-
-    echo $html;
-}
+// CSS already hides .woocommerce-shipping-fields via display:none
 
 
 /* ================================================================
