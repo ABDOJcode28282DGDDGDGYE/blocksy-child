@@ -189,7 +189,7 @@ body.custom-checkout-page {
 }
 
 /* ============================================================
-   CHECKOUT FORM GRID — 2 columns
+   CHECKOUT FORM GRID — 2 columns (left: fields | right: summary)
    ============================================================ */
 .custom-checkout-page .woocommerce-notices-wrapper {
     margin-bottom: 22px;
@@ -198,40 +198,26 @@ body.custom-checkout-page {
 .custom-checkout-page form.checkout {
     display: grid !important;
     grid-template-columns: 1fr 340px;
-    grid-template-areas:
-        "details  summary"
-        "payment  summary";
     gap: 24px;
     align-items: start;
 }
 
-.custom-checkout-page form.checkout #customer_details {
-    grid-area: details;
-}
-.custom-checkout-page form.checkout #payment {
-    grid-area: payment;
-}
-.custom-checkout-page form.checkout #order_review {
-    grid-area: summary;
-    position: sticky;
-    top: 24px;
-}
-.custom-checkout-page form.checkout #order_review_heading {
-    display: none !important;
-}
-
-/* col reset */
-.custom-checkout-page #customer_details {
+/* Left column: billing + additional fields */
+.custom-checkout-page .cko-left-col {
     display: flex;
     flex-direction: column;
     gap: 24px;
 }
-.custom-checkout-page #customer_details .col-1,
-.custom-checkout-page #customer_details .col-2 {
-    float: none !important;
-    width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
+
+/* Right column: order summary (sticky) */
+.custom-checkout-page .cko-right-col {
+    position: sticky;
+    top: 24px;
+}
+
+/* Hide the default WC heading — we inject our own */
+.custom-checkout-page form.checkout #order_review_heading {
+    display: none !important;
 }
 
 /* ============================================================
@@ -574,7 +560,7 @@ body.custom-checkout-page {
 .custom-checkout-page #billing_phone_field,
 .custom-checkout-page #billing_phone_field .woocommerce-input-wrapper,
 .custom-checkout-page #customer_details,
-.custom-checkout-page #customer_details .col-1 {
+.custom-checkout-page .cko-left-col {
     overflow: visible !important;
 }
 
@@ -760,6 +746,8 @@ body.custom-checkout-page {
     border-bottom: 1px solid var(--border) !important;
     display: block !important;
 }
+    display: block !important;
+}
 
 /* Table */
 .custom-checkout-page table.shop_table {
@@ -837,13 +825,14 @@ body.custom-checkout-page {
 }
 
 /* ============================================================
-   PAYMENT — Hidden as separate card, lives inside order_review
+   PAYMENT — Inside order_review, transparent wrapper
    ============================================================ */
 .custom-checkout-page #payment {
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    padding: 0;
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    box-shadow: none !important;
 }
 .custom-checkout-page #payment .woocommerce-checkout-payment {
     background: transparent !important;
@@ -851,12 +840,12 @@ body.custom-checkout-page {
     padding: 0 !important;
 }
 
-/* Hide payment methods list (payment gateway handles it) */
+/* Hide payment methods list (gateway handles it) */
 .custom-checkout-page #payment ul.payment_methods {
     display: none !important;
 }
 
-/* Hide the separate payment heading */
+/* Hide any separate payment heading */
 .custom-checkout-page #payment > h3 {
     display: none !important;
 }
@@ -1103,12 +1092,8 @@ body.custom-checkout-page {
 @media (max-width: 800px) {
     .custom-checkout-page form.checkout {
         grid-template-columns: 1fr !important;
-        grid-template-areas:
-            "details"
-            "summary"
-            "payment" !important;
     }
-    .custom-checkout-page #order_review {
+    .custom-checkout-page .cko-right-col {
         position: static !important;
     }
 
